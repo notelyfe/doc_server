@@ -1,8 +1,9 @@
 const express = require("express")
 const verifyJWT = require("../Middleware/VerifyJwt")
-const { createNewDoc } = require("../Controllers/docController")
+const { createNewDoc, getAllDocs } = require("../Controllers/docController")
 const router = express.Router()
 
-router.post("/newDoc", verifyJWT, createNewDoc)
+router.get("/newDoc", verifyJWT, createNewDoc)
+router.get("/getAllDocs", verifyJWT, getAllDocs)
 
 module.exports = router

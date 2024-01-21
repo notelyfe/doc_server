@@ -9,10 +9,7 @@ const DocsSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    doc_id: {
-        type: mongoose.Schema.Types.ObjectId,
-    },
-    owners: [{
+    other_owners: [{
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
