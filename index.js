@@ -10,6 +10,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use("/api/auth", require("./src/Routes/user"))
+app.use("/api/doc", require("./src/Routes/doc"))
 
 app.get("*", (req, res) => {
     res.status(404).json({ msg: "404 Page Not found" })

@@ -28,3 +28,16 @@
 
 #### Method: Get
 #### Header: <ul><li><b>Authorization:</b> Bearer access_token</li></ul>
+
+### Create New Doc
+    http://localhost:8000/api/doc/newDoc
+
+#### Method: Post
+#### Header: <ul><li><b>Authorization:</b> Bearer access_token</li></ul>
+body:
+<ul>
+<li><b>doc_name</b></li>
+<li><b>created_by</b></li>
+<li><b>doc_id</b></li>
+</ul>
+
