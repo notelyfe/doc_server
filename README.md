@@ -41,6 +41,13 @@
 #### Method: Get
 #### Header: <ul><li><b>Authorization:</b> Bearer access_token</li></ul>
 
+### Delete Docs
+    http://localhost:8000/api/doc/deleteDoc
+
+#### Method: Delete
+#### Header: <ul><li><b>Authorization:</b> Bearer access_token</li></ul>
+#### Body: <ul> <li>doc_id</li></ul>
+
 ### Share Doc
     http://localhost:8000/api/doc/shareDoc
 
