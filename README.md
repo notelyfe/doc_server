@@ -41,3 +41,10 @@
 #### Method: Get
 #### Header: <ul><li><b>Authorization:</b> Bearer access_token</li></ul>
 
+### Share Doc
+    http://localhost:8000/api/doc/shareDoc
+
+#### Method: Post
+#### Header: <ul><li><b>Authorization:</b> Bearer access_token</li></ul>
+#### Body: <ul> <li>doc_id</li> <li>share_to: {<li>email</li> <li>permission</li>}</li></ul>
+

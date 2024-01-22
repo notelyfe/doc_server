@@ -14,10 +14,6 @@ const DocsSchema = new Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
-        read_permission: {
-            type: Boolean,
-            default: false
-        },
         write_permission: {
             type: Boolean,
             default: false
