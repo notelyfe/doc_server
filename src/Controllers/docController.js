@@ -38,10 +38,10 @@ const getAllDocs = async (req, res) => {
         let usrDocs = docs.filter(doc => {
             return doc.created_by.toString() === userId
         })
-        
-        for(let i=0; i<docs.length; i++){
-            for(let j=0; j<docs[i]?.other_owners?.length; j++){
-                if(docs[i]?.other_owners[j]?.user?.toString() === user?._id.toString()){
+
+        for (let i = 0; i < docs.length; i++) {
+            for (let j = 0; j < docs[i]?.other_owners?.length; j++) {
+                if (docs[i]?.other_owners[j]?.user?.toString() === user?._id.toString()) {
                     usrDocs.push(docs[i])
                     break;
                 }
@@ -74,7 +74,7 @@ const shareDoc = async (req, res) => {
         }
 
         let existedOwerns = []
-        for(let k=0; k<doc?.other_owners?.length; k++){
+        for (let k = 0; k < doc?.other_owners?.length; k++) {
             existedOwerns.push(doc?.other_owners[k]?.user.toString())
         }
 
@@ -83,7 +83,7 @@ const shareDoc = async (req, res) => {
 
             let sharedUserId = await User.findOne({ email: share_to[i]?.email })
 
-            if(!existedOwerns.includes(sharedUserId?._id.toString())){
+            if (!existedOwerns.includes(sharedUserId?._id.toString())) {
                 data = {
                     user: sharedUserId?._id,
                     write_permission: share_to[i]?.permission
@@ -92,45 +92,47 @@ const shareDoc = async (req, res) => {
             }
         }
 
-        await Doc.findByIdAndUpdate({ _id: doc?._id }, {other_owners: new_owners})
+        await Doc.findByIdAndUpdate({ _id: doc?._id }, { other_owners: new_owners })
 
-        res.status(200).json({msg: "Docs Shared"})
+        res.status(200).json({ msg: "Docs Shared" })
 
     } catch (error) {
-        res.status(500).json({msg: "Internal Server Error"})
+        res.status(500).json({ msg: "Internal Server Error" })
     }
 }
 
 const deleteDoc = async (req, res) => {
     try {
 
+        let doc_id = req.params.id
+
         const userId = req.user.id
 
-        let user = await User.findById({_id: userId})
+        let user = await User.findById({ _id: userId })
 
-        if(!user){
-            return res.status(400).json({msg: "Bad Request"})
+        if (!user) {
+            return res.status(400).json({ msg: "Invalid user" })
         }
 
-        let doc = await Doc.findById({_id: req.body.doc_id})
-        
-        if(!doc){
-            return res.status(400).json({msg: "Bad Request"})
+        let doc = await Doc.findById({ _id: doc_id })
+
+        if (!doc) {
+            return res.status(400).json({ msg: "Invalid Doc" })
         }
 
-        if(doc?.created_by.toString() === userId){
-            return await Doc.findByIdAndDelete({_id: req.body.doc_id})
-        }else{
+        if (doc?.created_by.toString() === userId) {
+            await Doc.findByIdAndDelete({ _id: doc_id })
+        } else {
             let updateOwner = doc?.other_owners?.filter(x => {
                 return x?.user?.toString() !== userId
             })
-            await Doc.findByIdAndUpdate({_id: req.body.doc_id}, {other_owners: updateOwner})
+            await Doc.findByIdAndUpdate({ _id: doc_id }, { other_owners: updateOwner })
         }
 
-        res.status(200).json({msg: "Doc Deleted"})
-        
+        res.status(200).json({ msg: "Doc Deleted" })
+
     } catch (error) {
-        res.status(500).json({msg: "Internal Server Error"})
+        res.status(500).json({ msg: "Internal Server Error" })
     }
 }
 
