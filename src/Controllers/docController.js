@@ -156,6 +156,37 @@ const editName = async (req, res) => {
     }
 }
 
+const editPermission = async (req, res) => {
+    try {
+
+        let userId = req.user.id
+        let { docId, user } = req.body
+
+        let doc = await Doc.findById(docId)
+        if (!doc) {
+            return res.status(404).json({ msg: "Doc Not found" })
+        }
+
+        if (doc.created_by.toString() !== userId) {
+            return res.status(403).json({ msg: "Action Not Allowed" })
+        }
+
+        let other_owners = []
+        doc.other_owners?.map(item => {
+            if (item.user.toString() === user) {
+                item.write_permission = !item.write_permission
+            }
+            other_owners.push(item)
+        })
+
+        await Doc.findByIdAndUpdate(docId, { other_owners })
+        res.json(doc)
+
+    } catch (error) {
+        res.status(500).json({ msg: "Internal Server Error" })
+    }
+}
+
 const updateDocContent = async (docId, data) => {
     await Doc.findByIdAndUpdate(docId, { content: data })
 }
@@ -173,6 +204,7 @@ module.exports = {
     shareDoc,
     deleteDoc,
     editName,
+    editPermission,
     updateDocContent,
     getDocData
 }

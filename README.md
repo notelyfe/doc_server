@@ -63,3 +63,10 @@
 #### Method: Put
 #### Header: <ul><li><b>Authorization:</b> Bearer access_token</li></ul>
 #### Body: <ul> <li>doc_id</li> <li>name</li></ul>
+
+### Edit Doc Permission
+    http://localhost:8000/api/doc/editPermission
+
+#### Method: Patch
+#### Header: <ul><li><b>Authorization:</b> Bearer access_token</li></ul>
+#### Body: <ul> <li>docId</li> <li>user</li></ul>
