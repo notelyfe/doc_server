@@ -15,6 +15,7 @@ const createNewDoc = async (req, res) => {
             doc_name: "untitled",
             created_by: user._id,
             other_owners: [],
+            content: ""
         })
 
         res.status(200).json(doc)
@@ -136,9 +137,42 @@ const deleteDoc = async (req, res) => {
     }
 }
 
+const editName = async (req, res) => {
+    try {
+
+        const { doc_id, name } = req.body
+
+        const doc = await Doc.findById({ _id: doc_id })
+
+        if (!doc) {
+            return res.status(404).json({ msg: "Doc Not Found" })
+        }
+
+        await Doc.findByIdAndUpdate({ _id: doc_id }, { doc_name: name })
+        res.status(200).json({ msg: "Doc Name Changed" })
+
+    } catch (error) {
+        res.status(500).json({ msg: "Internal Server Error" })
+    }
+}
+
+const updateDocContent = async (docId, data) => {
+    await Doc.findByIdAndUpdate(docId, { content: data })
+}
+
+const getDocData = async (docId) => {
+    let doc = await Doc.findById(docId)
+    if (!doc) return
+
+    return doc
+}
+
 module.exports = {
     createNewDoc,
     getAllDocs,
     shareDoc,
-    deleteDoc
+    deleteDoc,
+    editName,
+    updateDocContent,
+    getDocData
 }

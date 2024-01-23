@@ -3,6 +3,7 @@ const express = require("express")
 const app = express()
 const connectToDb = require("./src/Config/db")
 const cors = require("cors")
+const socketConnection = require("./src/Socket/socket")
 
 const port = process.env.PORT
 
@@ -12,12 +13,14 @@ app.use(express.json())
 app.use("/api/auth", require("./src/Routes/user"))
 app.use("/api/doc", require("./src/Routes/doc"))
 
-app.get("*", (req, res) => {
-    res.status(404).json({ msg: "404 Page Not found" })
-})
-
 const server = app.listen(port, () => {
     console.log(`Server is Running on port ${port}`)
+})
+
+socketConnection(server)
+
+app.get("*", (req, res) => {
+    res.status(404).json({ msg: "404 Page Not found" })
 })
 
 connectToDb()

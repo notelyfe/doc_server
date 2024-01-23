@@ -1,6 +1,6 @@
 # settyl_server
 
-## End-points
+## User End-points
 
 ### Create a new user
     http://localhost:8000/api/auth/createUser
@@ -29,6 +29,9 @@
 #### Method: Get
 #### Header: <ul><li><b>Authorization:</b> Bearer access_token</li></ul>
 
+
+## Document End-Pints
+
 ### Create New Doc
     http://localhost:8000/api/doc/newDoc
 
@@ -52,5 +55,11 @@
 
 #### Method: Post
 #### Header: <ul><li><b>Authorization:</b> Bearer access_token</li></ul>
-#### Body: <ul> <li>doc_id</li> <li>share_to: {<li>email</li> <li>permission</li>}</li></ul>
+#### Body: <ul> <li>doc_id</li> <li>share_to: [{<li>email</li> <li>permission</li>}]</li></ul>
 
+### Edit Doc Name
+    http://localhost:8000/api/doc/editName
+
+#### Method: Put
+#### Header: <ul><li><b>Authorization:</b> Bearer access_token</li></ul>
+#### Body: <ul> <li>doc_id</li> <li>name</li></ul>
