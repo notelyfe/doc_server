@@ -9,7 +9,7 @@ const DocsSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    content:{
+    content: {
         type: Object
     },
     other_owners: [{
@@ -20,6 +20,9 @@ const DocsSchema = new Schema({
         write_permission: {
             type: Boolean,
             default: false
+        },
+        name: {
+            type: String
         }
     }]
 }, {

@@ -84,10 +84,15 @@ const shareDoc = async (req, res) => {
 
             let sharedUserId = await User.findOne({ email: share_to[i]?.email })
 
+            if(sharedUserId._id.toString() === usrId){
+                return res.status(400).json({msg: "Sharing to own account"})
+            }
+
             if (!existedOwerns.includes(sharedUserId?._id.toString())) {
                 data = {
                     user: sharedUserId?._id,
-                    write_permission: share_to[i]?.permission
+                    write_permission: share_to[i]?.permission,
+                    name: sharedUserId.name
                 }
                 new_owners.push(data)
             }
