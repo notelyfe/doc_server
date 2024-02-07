@@ -7,7 +7,7 @@ const verifyJWT = (req, res, next) => {
     const authHeader = req.headers.authorization || req.headers.Authorization
 
     if (!authHeader?.startsWith('Bearer ')) {
-        return res.status(401).json({ msg: 'UnAuthorized' })
+        return res.status(401).json({ message: 'UnAuthorized' })
     }
 
     const token = authHeader.split(" ")[1]
@@ -17,7 +17,7 @@ const verifyJWT = (req, res, next) => {
         req.user = data.user
         next()
     } catch (error) {
-        res.status(403).json({ msg: 'Access Forbidden' })
+        res.status(403).json({ message: 'Access Forbidden' })
     }
 }
 

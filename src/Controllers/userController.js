@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
 const accessToken = process.env.ACCESS_TOKEN_SECRET
+const refreshToken = process.env.REFRESH_TOKEN_SECRET
 
 const createUser = async (req, res) => {
 
@@ -13,7 +14,7 @@ const createUser = async (req, res) => {
         let user = await User.findOne({ email: email })
 
         if (user) {
-            return res.status(400).json({ msg: `User with ${email} already exist` })
+            return res.status(400).json({ message: `User with ${email} already exist` })
         }
 
         const salt = await bcrypt.genSalt(10)
@@ -25,10 +26,10 @@ const createUser = async (req, res) => {
             password: securePass
         })
 
-        res.status(200).json({ msg: "User Created Successfully" })
+        res.status(200).json({ message: "User Created Successfully" })
 
     } catch (error) {
-        res.status(500).json({ msg: "Internal Server Error" })
+        res.status(500).json({ message: "Internal Server Error" })
     }
 
 }
@@ -42,13 +43,13 @@ const login = async (req, res) => {
         let user = await User.findOne({ email: email })
 
         if (!user) {
-            return res.status(404).json({ msg: `${email} doesn't exist` })
+            return res.status(404).json({ message: `${email} doesn't exist` })
         }
 
         let passCompare = await bcrypt.compare(password, user.password)
 
         if (!passCompare) {
-            return res.status(400).json({ msg: "Invalid Password" })
+            return res.status(400).json({ message: "Invalid Password" })
         }
 
         const data = {
@@ -57,11 +58,13 @@ const login = async (req, res) => {
             }
         }
 
-        const access_token = jwt.sign(data, accessToken)
+        const access_token = jwt.sign(data, accessToken, { expiresIn: "30m" })
+        const refresh_token = jwt.sign(data, refreshToken, { expiresIn: "24h" })
+        res.cookie("jwt", refresh_token, { httpOnly: true, sameSite: "None", secure: true, maxAge: 24 * 60 * 60 * 1000 })
         res.status(200).json({ access_token })
 
     } catch (error) {
-        res.status(500).json({ msg: "Internal Server Error" })
+        res.status(500).json({ message: "Internal Server Error" })
     }
 
 }
@@ -75,7 +78,7 @@ const getUser = async (req, res) => {
         res.status(200).json(user)
 
     } catch (error) {
-        res.status(500).json({ msg: "Internal Server Error" })
+        res.status(500).json({ message: "Internal Server Error" })
     }
 
 }

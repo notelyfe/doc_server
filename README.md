@@ -70,3 +70,11 @@
 #### Method: Patch
 #### Header: <ul><li><b>Authorization:</b> Bearer access_token</li></ul>
 #### Body: <ul> <li>docId</li> <li>user</li></ul>
+
+## Test account
+
+    email - test1@gmail.com
+    password - Test@123
+
+    email - test2@gmail.com
+    password - Test@123

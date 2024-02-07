@@ -8,7 +8,7 @@ const createNewDoc = async (req, res) => {
         const user = await User.findById({ _id: userId })
 
         if (!user) {
-            return res.status(401).json({ msg: "UnAuthroized" })
+            return res.status(401).json({ message: "UnAuthroized" })
         }
 
         const doc = await Doc.create({
@@ -21,7 +21,7 @@ const createNewDoc = async (req, res) => {
         res.status(200).json(doc)
 
     } catch (error) {
-        res.status(500).json({ msg: "Internal Server Error" })
+        res.status(500).json({ message: "Internal Server Error" })
     }
 }
 
@@ -32,7 +32,7 @@ const getAllDocs = async (req, res) => {
         const user = await User.findById({ _id: userId })
 
         if (!user) {
-            return res.status(401).json({ msg: "UnAuthroized" })
+            return res.status(401).json({ message: "UnAuthroized" })
         }
 
         const docs = await Doc.find()
@@ -52,7 +52,7 @@ const getAllDocs = async (req, res) => {
         res.status(200).json(usrDocs)
 
     } catch (error) {
-        res.status(500).json({ msg: "Internal Server Error" })
+        res.status(500).json({ message: "Internal Server Error" })
     }
 }
 
@@ -65,13 +65,13 @@ const shareDoc = async (req, res) => {
         const user = await User.findById({ _id: usrId })
 
         if (!user) {
-            return res.status(404).json({ msg: "Invalid User" })
+            return res.status(404).json({ message: "Invalid User" })
         }
 
         const doc = await Doc.findById({ _id: doc_id })
 
         if (doc?.created_by.toString() !== user?._id.toString()) {
-            return res.status(403).json({ msg: "Action not Allowed" })
+            return res.status(403).json({ message: "Action not Allowed" })
         }
 
         let existedOwerns = []
@@ -85,7 +85,7 @@ const shareDoc = async (req, res) => {
             let sharedUserId = await User.findOne({ email: share_to[i]?.email })
 
             if(sharedUserId._id.toString() === usrId){
-                return res.status(400).json({msg: "Sharing to own account"})
+                return res.status(400).json({message: "Sharing to own account"})
             }
 
             if (!existedOwerns.includes(sharedUserId?._id.toString())) {
@@ -100,10 +100,10 @@ const shareDoc = async (req, res) => {
 
         await Doc.findByIdAndUpdate({ _id: doc?._id }, { other_owners: new_owners })
 
-        res.status(200).json({ msg: "Docs Shared" })
+        res.status(200).json({ message: "Docs Shared" })
 
     } catch (error) {
-        res.status(500).json({ msg: "Internal Server Error" })
+        res.status(500).json({ message: "Internal Server Error" })
     }
 }
 
@@ -117,13 +117,13 @@ const deleteDoc = async (req, res) => {
         let user = await User.findById({ _id: userId })
 
         if (!user) {
-            return res.status(400).json({ msg: "Invalid user" })
+            return res.status(400).json({ message: "Invalid user" })
         }
 
         let doc = await Doc.findById({ _id: doc_id })
 
         if (!doc) {
-            return res.status(400).json({ msg: "Invalid Doc" })
+            return res.status(400).json({ message: "Invalid Doc" })
         }
 
         if (doc?.created_by.toString() === userId) {
@@ -135,10 +135,10 @@ const deleteDoc = async (req, res) => {
             await Doc.findByIdAndUpdate({ _id: doc_id }, { other_owners: updateOwner })
         }
 
-        res.status(200).json({ msg: "Doc Deleted" })
+        res.status(200).json({ message: "Doc Deleted" })
 
     } catch (error) {
-        res.status(500).json({ msg: "Internal Server Error" })
+        res.status(500).json({ message: "Internal Server Error" })
     }
 }
 
@@ -146,18 +146,19 @@ const editName = async (req, res) => {
     try {
 
         const { doc_id, name } = req.body
+        console.log(req)
 
         const doc = await Doc.findById({ _id: doc_id })
 
         if (!doc) {
-            return res.status(404).json({ msg: "Doc Not Found" })
+            return res.status(404).json({ message: "Doc Not Found" })
         }
 
         await Doc.findByIdAndUpdate({ _id: doc_id }, { doc_name: name })
-        res.status(200).json({ msg: "Doc Name Changed" })
+        res.status(200).json({ message: "Doc Name Changed" })
 
     } catch (error) {
-        res.status(500).json({ msg: "Internal Server Error" })
+        res.status(500).json({ message: "Internal Server Error" })
     }
 }
 
@@ -169,11 +170,11 @@ const editPermission = async (req, res) => {
 
         let doc = await Doc.findById(docId)
         if (!doc) {
-            return res.status(404).json({ msg: "Doc Not found" })
+            return res.status(404).json({ message: "Doc Not found" })
         }
 
         if (doc.created_by.toString() !== userId) {
-            return res.status(403).json({ msg: "Action Not Allowed" })
+            return res.status(403).json({ message: "Action Not Allowed" })
         }
 
         let other_owners = []
@@ -188,7 +189,7 @@ const editPermission = async (req, res) => {
         res.json(doc)
 
     } catch (error) {
-        res.status(500).json({ msg: "Internal Server Error" })
+        res.status(500).json({ message: "Internal Server Error" })
     }
 }
 
