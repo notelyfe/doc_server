@@ -146,7 +146,6 @@ const editName = async (req, res) => {
     try {
 
         const { doc_id, name } = req.body
-        console.log(req)
 
         const doc = await Doc.findById({ _id: doc_id })
 

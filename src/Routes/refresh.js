@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
         const cookies = req.cookies
 
         if (!cookies?.jwt) {
-            return res.sendStatus(401)
+            return res.sendStatus(403)
         }
 
         const refreshToken = cookies.jwt;
