@@ -60,11 +60,12 @@ const login = async (req, res) => {
 
         const access_token = jwt.sign(data, accessToken, { expiresIn: "30m" })
         const refresh_token = jwt.sign(data, refreshToken, { expiresIn: "24h" })
-        res.cookies("jwt", refresh_token, { httpOnly: true, sameSite: "None", secure: true, maxAge: 24 * 60 * 60 * 1000 })
+        res.cookie("jwt", refresh_token, { httpOnly: true, sameSite: "None", secure: true, maxAge: 24 * 60 * 60 * 1000 })
         res.status(200).json({ access_token })
 
     } catch (error) {
         res.status(500).json({ message: "Internal Server Error" })
+        console.log(error)
     }
 
 }
