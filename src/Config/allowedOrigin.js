@@ -1,3 +1,4 @@
+// const allowedOrigins = ["https://docs.notelyfe.me"]
 const allowedOrigins = ["https://docs.notelyfe.me"]
 // const allowedOrigins = ["http://localhost:3000"]
 
