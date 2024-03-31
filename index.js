@@ -10,8 +10,6 @@ const credentials = require("./src/Middleware/credentials")
 
 const port = process.env.PORT
 
-connectToDb()
-
 app.use(credentials)
 app.use(cors(corsOptions))
 app.use(express.json())
@@ -31,3 +29,5 @@ socketConnection(server)
 app.get("*", (req, res) => {
     res.status(404).json({ msg: "404 Page Not found" })
 })
+
+connectToDb()
