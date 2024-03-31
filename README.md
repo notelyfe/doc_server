@@ -1,4 +1,4 @@
-# settyl_server
+# Doc_server
 
 ## User End-points
 
