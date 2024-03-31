@@ -10,8 +10,9 @@ const credentials = require("./src/Middleware/credentials")
 
 const port = process.env.PORT
 
-app.use(credentials)
-app.use(cors(corsOptions))
+// app.use(credentials)
+// app.use(cors(corsOptions))
+app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 
